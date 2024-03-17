@@ -20,16 +20,19 @@
 			max-width: 500px;
 			margin: 0 auto;
 			margin-bottom: 10px;
+
+		}
+
+		.footer {
+			position: sticky;
+			left: 0;
+			bottom: 0;
+			width: 100%;
 		}
 	</style>
 </head>
 
-<!--    footer {
-			position: fixed;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-		}-->
+
 <body>
 
 	<th:block th:insert="~{/owner/navbar :: navbar}"></th:block>
@@ -37,6 +40,7 @@
 	<div class="errorMsg" th:if="${not #strings.isEmpty(errorMsg)}">
 		<h2 style="font-weight: bold;" class="text-center text-danger fs-5" th:text="${errorMsg}"></h2>
 	</div>
+
 
 	<div class="container-fluid  justify-content-center">
 		<!-- Loop through objects and generate cards -->
@@ -47,8 +51,10 @@
 					<h4 style="font-weight: bold; color: black;"><span th:text="${pg.name}"></span></h4>
 					<h6>Location: <span class="text-warning" th:text="${pg.location}"></span></h6>
 					<h6>Address: <span class="text-info" th:text="${pg.address}"></span></h6>
-					<a th:href="@{/pg/{id}(id=${pg.id})}" class="btn btn-primary btn-rounded"><i class="fas fa-eye me-1"></i>View Pg</a>
-					<a th:href="@{/editPg/{id}(id=${pg.id})}" class="btn btn-success btn-rounded"><i class="fas fa-square-pen me-1"></i>Edit Pg</a>
+					<a th:href="@{/pg/{id}(id=${pg.id})}" class="btn btn-primary btn-rounded"><i
+							class="fas fa-eye me-1"></i>View Pg</a>
+					<a th:href="@{/editPg/{id}(id=${pg.id})}" class="btn btn-success btn-rounded"><i
+							class="fas fa-square-pen me-1"></i>Edit Pg</a>
 					<a th:href="@{/deletePg/{id}(id=${pg.id})}" class="btn btn-danger btn-rounded"
 						onclick="return confirmDelete()"><i class="fas fa-trash-arrow-up me-1"></i>Delete Pg</a>
 				</div>

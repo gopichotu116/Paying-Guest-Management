@@ -4,6 +4,7 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/pg.css}">
 	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
 </head>
 
@@ -12,52 +13,78 @@
 	<th:block th:insert="~{/owner/navbar :: navbar}"></th:block>
 
 
-	<div class="container my-0 p-5">
-		<h1 class="text-center">Edit PG</h1>
+	<div class="container my-0 p-0">
+		<h1 class="text-center">Edit PG Profile</h1>
 
-		<form class="col-md-4 offset-md-4" th:action="@{/updatePg}" th:object="${pg}" method="post"
+		<div class="successMsg" th:if="${not #strings.isEmpty(successMsg)}">
+			<h2 style="font-weight: bold;" class="text-center text-light fs-5" th:text="${successMsg}"></h2>
+		</div>
+
+		<form class="col-md-6 offset-md-3.5" th:action="@{/savePg}" th:object="${pg}" method="post"
 			enctype="multipart/form-data">
 
 			<input type="hidden" name="id" th:value="${pg.id}" />
-
-			<div class="mb-1">
-				<label for="name" class="form-label">Name
-				</label> <input type="text" class="form-control" name="name" th:value="${pg.name}">
+			<div class="mb-3">
+				<label for="name" class="form-label">Name</label>
+				<input type="text" class="form-control" name="name" th:value="${pg.name}" required>
 			</div>
-
-			<div class="mb-1">
-				<label for="email" class="form-label">Email
-				</label> <input type="email" class="form-control" name="email" th:value="${custProfile.email}" readonly>
+			<div class="mb-3">
+				<label for="location" class="form-label">Location</label>
+				<input type="text" class="form-control" name="location" th:value="${pg.location}" required>
 			</div>
-
-			<div class="mb-1">
-				<label for="password" class="form-label">Password
-				</label> <label class="pswd"><a style="color: black; font-weight: bold;" href="\passwordRequirements"><i
-							class="fas fa-arrow-right-to-bracket"></i> Password requirements</a></label>
-				<input type="password" class="form-control" name="password" th:value="${custProfile.password}">
-
+			<div class="mb-3">
+				<label for="area" class="form-label">Area</label>
+				<input type="text" class="form-control" name="area" th:value="${pg.area}" required>
 			</div>
-
-			<div class="mb-1">
-				<label for="loc" class="form-label">Location
-				</label> <input type="text" class="form-control" name="loc" th:value="${custProfile.loc}">
+			
+			
+			<div class="mb-3">
+				<label for="outsideImages" class="form-label">Outside Images</label>
+				<input type="file" class="form-control" name="outsideImages" accept="image/jpeg, image/png" multiple
+					required>
+			</div>
+			<div class="mb-3">
+				<label for="insideImages" class="form-label">Inside Images</label>
+				<input type="file" class="form-control" name="insideImages" accept="image/jpeg, image/png" multiple
+					required>
+			</div>
+			<div class="mb-3">
+				<label for="rulesImage" class="form-label">Rules Image</label>
+				<input type="file" class="form-control" name="rulesImage" th:value="${pg.rulesImage}"
+					accept="image/jpeg, image/png" required>
+			</div>
+			<div class="mb-3">
+				<label for="rentCard" class="form-label">Rent Card</label>
+				<input type="file" class="form-control" name="rentCard" th:value="${pg.rentCard}"
+					accept="image/jpeg, image/png" required>
+			</div>
+			<div class="mb-3">
+				<label for="boardImage" class="form-label">Board Image</label>
+				<input type="file" class="form-control" name="boardImage" th:value="${pg.boardImage}"
+					accept="image/jpeg, image/png" required>
+			</div>
+			
+			
+			<div class="mb-3">
+				<label for="phno" class="form-label">Phone Number</label>
+				<input type="text" class="form-control" name="phno" th:value="${pg.phno}" required>
+			</div>
+			<div class="mb-3">
+				<label for="maps" class="form-label">Maps</label>
+				<input type="text" class="form-control" name="maps" th:value="${pg.maps}" required>
 			</div>
 
 			<div class="mb-3">
-				<label for="phno" class="form-label">Phone No
-				</label> <input type="text" class="form-control" name="phno" th:value="${custProfile.phno}">
+				<label for="address" class="form-label">Address</label>
+				<input type="text" class="form-control" name="address" th:value="${pg.address}" required>
 			</div>
 
-			<div class="mb-3">
-				<label for="pic" class="form-label">Edit Pic
-				</label> <input type="file" class="form-control" name="file" th:value="${custProfile.profileImage}">
-			</div>
-
-
-			<center><button type="submit" class="btn btn-primary rounded">Submit</button></center>
+			<center>
+				<button type="submit" class="btn btn-primary rounded">Submit</button>
+			</center>
 		</form>
 	</div>
-	
+
 	<div th:replace="~{/fragments/footer :: footer}"></div>
 
 	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>

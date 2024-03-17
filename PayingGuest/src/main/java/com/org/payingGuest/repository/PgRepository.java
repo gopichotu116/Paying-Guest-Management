@@ -11,7 +11,10 @@ import com.org.payingGuest.entity.Pg;
 @Repository
 public interface PgRepository extends JpaRepository<Pg,Integer>{
 
-	@Query("select p from Pg p where p.owner.id=:ownerId")
+	@Query("SELECT p FROM Pg p WHERE p.owner.id=:ownerId")
 	List<Pg> findPgsByOwnerId(Integer ownerId);
+
+	@Query("SELECT p FROM Pg p WHERE p.location=:location AND p.area=:area")
+	List<Pg> findPgsByLocationAndArea(String location, String area);
 
 }

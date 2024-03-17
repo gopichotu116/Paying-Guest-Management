@@ -1,5 +1,7 @@
 package com.org.payingGuest.controller;
 
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.org.payingGuest.entity.Pg;
 import com.org.payingGuest.entity.User;
+import com.org.payingGuest.service.PgService;
 import com.org.payingGuest.service.UserService;
 
 @Controller
@@ -17,11 +21,11 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private PgService pgService;
 
-	/**
-	 * ----------------------------------- User SignUp
-	 * ------------------------------------
-	 */
+	/**----------------------------------- User SignUp ------------------------------------*/
 
 	@GetMapping("/userSignup")
 	public String userSignup() {
@@ -37,10 +41,8 @@ public class UserController {
 		return "user/userLogin";
 	}
 
-	/**
-	 * ----------------------------------- User Login
-	 * ------------------------------------
-	 */
+	/** ----------------------------------- User Login ------------------------------------*/
+	 
 
 	@GetMapping("/userLogin")
 	public String userLogin() {
@@ -58,10 +60,7 @@ public class UserController {
 		return "user/userHome";
 	}
 
-	/**
-	 * ----------------------------------- User Home
-	 * ------------------------------------
-	 */
+	/**----------------------------------- User Home ------------------------------------*/
 
 	@GetMapping("/userHome")
 	public String userHomePage() {
@@ -88,10 +87,7 @@ public class UserController {
 		return "admin/usersList";
 	}
 
-	/**
-	 * ----------------------------------- Search PG
-	 * ------------------------------------
-	 */
+	/** ----------------------------------- Search PG------------------------------------*/
 
 	@GetMapping("/searchPg")
 	public String findPg() {
@@ -99,7 +95,15 @@ public class UserController {
 	}
 
 	@PostMapping("/searchPg")
-	public String listOfPg(@RequestParam("location") String location, @RequestParam("area") String area) {
+	public String listOfPg(@RequestParam("location") String location, 
+			@RequestParam("area") String area, Model model) {
+		List<Pg> pgs = pgService.getPgsByLocationAndArea(location, area);
+		
+		for(Pg pg:pgs) {
+			
+		}
+		
+		model.addAttribute("pgs", pgs);
 		return "user/pgsList";
 	}
 

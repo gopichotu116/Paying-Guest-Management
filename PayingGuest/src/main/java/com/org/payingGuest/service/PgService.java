@@ -48,7 +48,7 @@ public class PgService {
 	}
 	
 	// Utility method to convert MultipartFile objects to byte arrays
-    private List<byte[]> convertImages(List<MultipartFile> multipartFiles) throws IOException {
+    public List<byte[]> convertImages(List<MultipartFile> multipartFiles) throws IOException {
         List<byte[]> images = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
             images.add(file.getBytes());
@@ -65,7 +65,15 @@ public class PgService {
 	}
 
 	public Pg getById(Integer id) {
-		return pgRepo.findById(id).orElse(null);
+		return pgRepo.findById(id).get();
+	}
+
+	public void updatePg(Pg pg) {
+		 pgRepo.save(pg);
+	}
+
+	public List<Pg> getPgsByLocationAndArea(String location, String area) {
+		return pgRepo.findPgsByLocationAndArea(location, area);
 	}
 
 }
