@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/adminLogin.css}">
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+</head>
+
+<body>
+	<th:block th:replace="~{/fragments/navbar :: navbar}"></th:block>
+	
+	<div class="main">
+
+		<form class="form-1" action="/adminLogin" method="post">
+			<h1 style="text-align: center; font-weight: bold; color: aliceblue;">ADMIN LOGIN</h1>
+
+			<div class="errorMsg" th:if="${not #strings.isEmpty(errorMsg)}">
+				<h2 style="font-weight: bold;" class="text-center text-warning fs-5" th:text="${errorMsg}"></h2>
+			</div>
+
+			<div class="flex-column">
+				<label>Email</label>
+			</div>
+			<div class="inputForm">
+				<input placeholder="Enter your Email" name="email" class="input" type="text" required/>
+			</div>
+
+			<div class="flex-column">
+				<label>Password </label>
+			</div>
+			<div class="inputForm">
+				<input placeholder="Enter your Password" name="password" class="input" type="password" required />
+			</div>
+
+			<!--<div class="flex-row">
+				<span class="span">Forgot password?</span>
+			</div>-->
+
+			<button type="submit" class="button-submit">Login</button>
+			<!--<p class="p">Don't have an account? <span class="span">Sign Up</span></p>-->
+
+		</form>
+
+
+		<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+		<script type="text/javascript" src="/js/all.min.js"></script>
+	</div>
+</body>
+
+</html>

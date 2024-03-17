@@ -1,0 +1,85 @@
+
+
+<div th:fragment="navbar">
+<link rel="stylesheet" th:href="@{/css/dropdown.css}">
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
+		<!-- Container wrapper -->
+		<div class="container-fluid">
+			<!-- Toggle button -->
+			<button data-mdb-collapse-init class="navbar-toggler" type="button"
+				data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<i class="fas fa-bars"></i>
+			</button>
+
+			<!-- Collapsible wrapper -->
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<!-- Navbar brand -->
+				<a class="navbar-brand mt-2 mt-lg-0" href="#">
+					<img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" height="15"
+						alt="MDB Logo" loading="lazy" />
+					<small>PAYING GUEST</small>
+				</a>
+
+				<!-- Left links -->
+				<ul class="navbar-nav me-auto mb-1 mb-lg-0">
+
+					<li class="nav-item">
+						<button type="button" class="btn m-1 btn-rounded btn-warning" data-mdb-ripple-init>
+							<a style="color: white;" aria-current="page" href="/ownerHome"><i
+									class="fas fa-house-chimney-user me-2"></i>Home</a></button>
+					</li>
+
+					<li class="nav-item">
+						<div class="paste-button">
+							<button class="button"><a style="color: white;" aria-current="page">
+							<i class="fas fa-hotel me-2"></i>PG</a>&nbsp;▼</button>
+							<div class="dropdown-content">
+								<a id="top" href="/myPgs"><i class="fas fa-right-to-bracket me-2"></i> VIEW MY PGs <span><i class="fas fa-eye"></i></span></a>
+								<a id="bottom" href="/addPg"><i class="fas fa-right-to-bracket me-2"></i> ADD NEW PG <span><i class="fas fa-circle-plus"></i></span></a>
+							</div>
+						</div>
+
+					</li>
+				</ul>
+				<!-- Left links -->
+			</div>
+			<!-- Collapsible wrapper -->
+
+			<!-- Right elements -->
+			<div class="d-flex align-items-center">
+				<!-- Avatar -->
+
+				<div class="dropdown">
+					<a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
+						id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
+						<img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="40"
+							alt="Black and White Portrait of a Man" loading="lazy" />
+					</a>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+
+						<li>
+							<a class="dropdown-item text-success" href="#">Profile
+								<i class="fas fa-user ml-1"></i>
+							</a>
+						</li>
+
+						<li>
+							<a class="dropdown-item text-primary" href="#">Edit profile <i
+									class="fas fa-pen-to-square"></i></a>
+						</li>
+
+						<li>
+							<a class="dropdown-item text-danger" href="/home">Logout <i
+									class="fas fa-arrow-right-to-bracket"></i></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- Right elements -->
+		</div>
+		<!-- Container wrapper -->
+	</nav>
+	<!-- Navbar -->
+</div>

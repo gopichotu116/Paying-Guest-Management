@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+</head>
+
+<body>
+	<th:block th:replace="~{/fragments/navbar :: navbar}"></th:block>
+
+
+	<th:block th:insert="~{/fragments/slides :: slides}"></th:block>
+
+	<!--<div th:replace="~{/fragments/features :: features}"></div>-->
+
+	<div th:replace="~{/fragments/footer :: footer}"></div>
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+	<style>
+		footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<th:block th:insert="~{/admin/navbar :: navbar}"></th:block>
+
+	<h1 class="text-center"> USERS LIST</h1>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th class="text-center text-primary">ID</th>
+				<th class="text-center text-warning">NAME</th>
+				<th class="text-center text-dark">EMAIL</th>
+				<th class="text-center text-success">MOBILE NO</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- Loop through users -->
+			<tr th:each="user : ${users}">
+				<td class="text-center text-dark" th:text="${user.id}"></td>
+				<td class="text-center text-dark" th:text="${user.name}"></td>
+				<td class="text-center" th:text="${user.email}"></td>
+				<td class="text-center" th:text="${user.phno}"></td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<!-- Pagination links -->
+	<nav aria-label="Page navigation">
+		<ul class="pagination justify-content-center">
+
+			<li th:class="${page == 1} ? 'page-item disabled' : 'page-item'">
+				<a class="page-link" th:href="@{/usersList(page=${page - 1})}">Previous</a>
+			</li>
+
+			<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+				th:class="${page} == ${pageNumber} ? 'page-item active' : 'page-item'">
+				<a class="page-link" th:href="@{/usersList(page=${pageNumber})}" th:text="${pageNumber}"></a>
+			</li>
+
+			<li th:class="${page == totalPages} ? 'page-item disabled' : 'page-item'">
+				<a class="page-link" th:href="@{/usersList(page=${page - 1})}">Next</a>
+			</li>
+
+		</ul>
+	</nav>
+
+	<div th:replace="~{/fragments/footer :: footer}"></div>
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+</body>
+
+</html>

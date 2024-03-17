@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/locationForm.css}">
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+</head>
+
+<body>
+
+	<th:block th:insert="~{/admin/navbar :: navbar}"></th:block>
+
+	<div class="container1">
+		<h1>ADD LOCATION</h1>
+
+		<div class="errorMsg" th:if="${not #strings.isEmpty(errorMsg)}">
+			<h2 style="font-weight: bold;" class="text-center text-danger fs-5" th:text="${errorMsg}"></h2>
+		</div>
+
+		<div class="successMsg" th:if="${not #strings.isEmpty(successMsg)}">
+			<h2 style="font-weight: bold;" class="text-center text-success fs-5" th:text="${successMsg}"></h2>
+		</div>
+
+		<div class="box box-two">
+			<form action="/addLocation" method="post">
+				<input type="text" placeholder="Enter Location" name="location" required /> <br><br>
+				<input type="text" placeholder="Enter Areas" name="area" required /><br><br>
+				<button class="next-button" type="submit">Submit</button>
+			</form>
+		</div>
+	</div>
+	<br><br>
+
+	<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>View Property</title>
+	<link rel="stylesheet" th:href="@{/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/css/viewPg.css}">
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+	
+</head>
+
+<body>
+	<th:block th:insert="~{/owner/navbar :: navbar}"></th:block>
+	<div class="container1">
+		<h2 class="text-center text-light">PG DETAILS</h2>
+		<div class="content">
+			<p><strong>Name: </strong> <span th:text="${pg.name}"></span></p>
+			<p><strong>Location: </strong> <span th:text="${pg.location}"></span></p>
+			<p><strong>Area: </strong> <span th:text="${pg.area}"></span></p>
+			<p><strong>Mobile No: </strong> <span th:text="${pg.phno}"></span></p>
+			<p><strong>Address: </strong> <span th:text="${pg.address}"></span></p>
+		</div>
+		<div class="content">
+			<div>
+				<p><strong>Outside Images</strong></p>
+				<div class="card-container">
+					<div th:each="image : ${outsideImages}" class="card">
+						<img th:src="'data:image/jpeg;base64,' + ${image}" alt="Outside Image" />
+					</div>
+				</div>
+			</div>
+
+			<div>
+				<p><strong>Inside Images</strong></p>
+				<div class="card-container">
+					<div th:each="image : ${insideImages}">
+						<img th:src="'data:image/jpeg;base64,' + ${image}" alt="Inside Image" width="100px"
+							height="100px" />
+					</div>
+				</div>
+			</div>
+			<p><strong>Rules & RentCard & Board Images</strong></p>
+			<div>
+
+				<div class="card-container">
+					<img th:src="'data:image/jpeg;base64,' + ${rulesImage}" alt="Rules Image" width="100px"
+						height="100px" />
+
+					<img th:src="'data:image/jpeg;base64,' + ${rentCard}" alt="Rent Card" width="100px"
+						height="100px" />
+
+					<img style="max-width: 100px; max-height: 100px;" th:src="'data:image/jpeg;base64,' + ${boardImage}"
+						class="profile-image rounded-circle" alt="profile">
+				</div>
+			</div><br>
+		</div>
+	</div>
+	<iframe th:src="${pg.maps}" class="container-fluid d-flex w-100 rounded" frameborder="0" style="border:0;"></iframe>
+
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+</body>
+<div th:insert="~{/fragments/footer :: footer}"></div>
+
+</html>

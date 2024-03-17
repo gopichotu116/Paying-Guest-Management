@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Upload PG Data</title>
+	<link rel="stylesheet" th:href="@{/css/pg.css}">
+	<script src="/js/app.js"></script>
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+</head>
+
+<body>
+	<th:block th:insert="~{/owner/navbar :: navbar}"></th:block>
+
+	<h2 class="text-center text-light"><i class="fas fa-hotel me-2"></i>ADD PG <i class="fas fa-hotel me-2"></i></h2>
+
+	<div class="successMsg" th:if="${not #strings.isEmpty(successMsg)}">
+		<h2 style="font-weight: bold;" class="text-center text-light fs-5" th:text="${successMsg}"></h2>
+	</div>
+
+	<form action="/addPg" method="post" enctype="multipart/form-data">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name" required><br><br>
+
+		<label for="location">Location:</label>
+		<select name="location" id="location" required></select> <br><br>
+
+		<label for="area">Area:</label>
+		<select name="area" id="area" required>
+			<option value="" aria-required="true">--------------- Select Area ---------------</option>
+		</select><br><br>
+
+		<label for="outsideImages">Outside Images:(Select multiple images min-3 max-6 )</label>
+		<input type="file" id="outsideImages" name="outsideImages" accept="image/jpeg, image/png" multiple><br><br>
+
+		<label for="insideImages">Inside Images: (Select multiple images min-6 max-10 )</label>
+		<input type="file" id="insideImages" name="insideImages" accept="image/jpeg, image/png" multiple><br><br>
+
+		<label for="rulesImage">Rules Image:</label>
+		<input type="file" id="rulesImage" name="rulesImage" accept="image/jpeg, image/png"><br><br>
+
+		<label for="rentCard">Rent Card:</label>
+		<input type="file" id="rentCard" name="rentCard" accept="image/jpeg, image/png"><br><br>
+
+		<label for="boardImage">Board Image:</label>
+		<input type="file" id="boardImage" name="boardImage" accept="image/jpeg, image/png"><br><br>
+
+		<label for="phno">Mobile NO:</label>
+		<input type="text" id="phno" name="phno" required><br><br>
+
+		<label for="maps">Maps:</label>
+		<input type="url" id="maps" name="maps" required><br><br>
+
+		<label for="phno">Address</label>
+		<input type="text" id="address" name="address" required><br><br>
+
+		<button type="submit">Upload</button>
+	</form>
+
+	<div th:replace="~{/fragments/footer :: footer}"></div>
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+</body>
+
+</html>

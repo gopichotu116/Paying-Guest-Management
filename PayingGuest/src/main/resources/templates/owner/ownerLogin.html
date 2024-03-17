@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/adminLogin.css}">
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+</head>
+
+<body class="owner">
+	<th:block th:replace="~{/fragments/navbar :: navbar}"></th:block>
+
+	<div class="main">
+
+		<form class="form-1" action="/ownerLogin" method="post">
+			<h1 style="text-align: center; font-weight: bold; color: white;">OWNER LOGIN</h1>
+
+			<div class="errorMsg" th:if="${not #strings.isEmpty(errorMsg)}">
+				<h2 style="font-weight: bold;" class="text-center text-warning fs-5" th:text="${errorMsg}"></h2>
+			</div>
+
+			<div class="successMsg" th:if="${not #strings.isEmpty(successMsg)}">
+				<h2 style="font-weight: bold;" class="text-center text-success fs-5" th:text="${successMsg}"></h2>
+			</div>
+
+			<div class="inputForm">
+				<input placeholder="Enter your Email" name="email" class="input" type="text" required />
+			</div>
+
+			<div class="inputForm">
+				<input placeholder="Enter your Password" name="password" class="input" type="password" required />
+			</div>
+
+			<div class="flex-row">
+				<a class="link" href="#">Forgot password?</a>
+			</div>
+
+			<button type="submit" class="button-submit">Login</button>
+			<p class="p">Don't have an account? <a class="link" href="/ownerSignup">Sign Up</a></p>
+
+		</form>
+
+
+		<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+		<script type="text/javascript" src="/js/all.min.js"></script>
+	</div>
+</body>
+
+</html>

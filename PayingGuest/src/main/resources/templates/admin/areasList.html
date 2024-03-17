@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Areas List</title>
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+
+	<style>
+		.list-group-item:hover {
+			font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+			font-size: large;
+			cursor: pointer;
+			color: blue;
+		}
+
+		footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+		}
+
+		.InputContainer {
+			width: 310px;
+			height: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: linear-gradient(to bottom, rgb(227, 213, 255), rgb(255, 231, 231));
+			border-radius: 30px;
+			overflow: hidden;
+			cursor: pointer;
+			box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.075);
+		}
+
+		.input {
+			width: 300px;
+			height: 40px;
+			border: none;
+			outline: none;
+			caret-color: rgb(255, 81, 0);
+			background-color: rgb(255, 255, 255);
+			border-radius: 30px;
+			padding-left: 15px;
+			letter-spacing: 0.8px;
+			color: rgb(19, 19, 19);
+			font-size: 13.4px;
+		}
+
+		.flex-row {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 10px;
+			justify-content: space-between;
+		}
+	</style>
+</head>
+
+<body>
+
+	<th:block th:insert="~{/admin/navbar :: navbar}"></th:block>
+
+	<!-- Display selected location -->
+	<div class="container">
+		<h2 class="d-flex justify-content-center text-primary">Areas for Location- <span
+				style="font-weight: bold; color: orange;" th:text="${location}"></span></h2>
+		<div class="flex-row">
+			<!-- Search Area-->
+			<form class="input-group mt-0" action="#">
+				<div class="InputContainer">
+					<input placeholder="Search.." id="input" class="input" name="area" type="search">
+				</div>
+			</form>
+
+			<p>COUNT <p th:text="${count}"></p></p>
+		</div>
+
+		<!-- Display areas -->
+		<ul class="list-group">
+			<li style="font-weight: bold;" th:each="area : ${areas}"
+				class="d-flex justify-content-center list-group-item" th:text="${area}"></li>
+		</ul>
+
+		<!-- Pagination links -->
+		<nav aria-label="Page navigation">
+			<ul class="pagination justify-content-center">
+
+				<li th:class="${page == 1} ? 'page-item disabled' : 'page-item'">
+					<a class="page-link" th:href="@{/areasList(location=${location}, page=${page - 1})}">Previous</a>
+				</li>
+
+				<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+					th:class="${page} == ${pageNumber} ? 'page-item active' : 'page-item'">
+					<a class="page-link" th:href="@{/areasList(location=${location}, page=${pageNumber})}"
+						th:text="${pageNumber}"></a>
+				</li>
+
+				<li th:class="${page == totalPages} ? 'page-item disabled' : 'page-item'">
+					<a class="page-link" th:href="@{/areasList(location=${location}, page=${page + 1})}">Next</a>
+				</li>
+
+			</ul>
+		</nav>
+	</div>
+	<div th:replace="~{/fragments/footer :: footer}"></div>
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+</body>
+
+</html>

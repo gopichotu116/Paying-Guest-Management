@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+</head>
+
+<body>
+
+	<th:block th:insert="~{/owner/navbar :: navbar}"></th:block>
+
+
+	<div class="container my-0 p-5">
+		<h1 class="text-center">Edit PG</h1>
+
+		<form class="col-md-4 offset-md-4" th:action="@{/updatePg}" th:object="${pg}" method="post"
+			enctype="multipart/form-data">
+
+			<input type="hidden" name="id" th:value="${pg.id}" />
+
+			<div class="mb-1">
+				<label for="name" class="form-label">Name
+				</label> <input type="text" class="form-control" name="name" th:value="${pg.name}">
+			</div>
+
+			<div class="mb-1">
+				<label for="email" class="form-label">Email
+				</label> <input type="email" class="form-control" name="email" th:value="${custProfile.email}" readonly>
+			</div>
+
+			<div class="mb-1">
+				<label for="password" class="form-label">Password
+				</label> <label class="pswd"><a style="color: black; font-weight: bold;" href="\passwordRequirements"><i
+							class="fas fa-arrow-right-to-bracket"></i> Password requirements</a></label>
+				<input type="password" class="form-control" name="password" th:value="${custProfile.password}">
+
+			</div>
+
+			<div class="mb-1">
+				<label for="loc" class="form-label">Location
+				</label> <input type="text" class="form-control" name="loc" th:value="${custProfile.loc}">
+			</div>
+
+			<div class="mb-3">
+				<label for="phno" class="form-label">Phone No
+				</label> <input type="text" class="form-control" name="phno" th:value="${custProfile.phno}">
+			</div>
+
+			<div class="mb-3">
+				<label for="pic" class="form-label">Edit Pic
+				</label> <input type="file" class="form-control" name="file" th:value="${custProfile.profileImage}">
+			</div>
+
+
+			<center><button type="submit" class="btn btn-primary rounded">Submit</button></center>
+		</form>
+	</div>
+	
+	<div th:replace="~{/fragments/footer :: footer}"></div>
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+</body>
+
+</html>

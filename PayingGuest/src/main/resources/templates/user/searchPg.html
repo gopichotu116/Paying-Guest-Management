@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/locationForm.css}">
+	<script src="/js/app.js"></script>
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+</head>
+
+<body class="search">
+
+	<th:block th:insert="~{/user/navbar :: navbar}"></th:block>
+
+	<div class="container-2">
+		<h1 style="color: black; font-weight: bold;">SEARCH PG</h1>
+
+		<div class="box box-two">
+			<form action="/searchPg" method="post">
+				<select name="location" id="location" required ></select> <br><br>
+				<select name="area" id="area" required >
+					<option value="" aria-required="true">--------------- Select Area ---------------</option>
+				</select> <br><br>
+				<button class="next-button" type="submit">Submit</button>
+			</form>
+		</div>
+	</div>
+	<br><br>
+
+	<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+
+</body>
+
+</html>

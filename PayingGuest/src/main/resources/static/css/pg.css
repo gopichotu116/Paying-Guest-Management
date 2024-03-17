@@ -1,0 +1,76 @@
+body{
+	background-image: url("/images/background6.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+form {
+	max-width: 500px;
+	margin: 0 auto;
+	padding: 20px;
+	border: 2px solid #ccc;
+	border-radius: 20px;
+	background-color: #f9f9f9;
+	/*background-image: url("/images/background5.jpg");*/
+	margin-bottom: 10px;
+}
+
+input::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: #084cdf;
+  padding: 5px 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+
+label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+	color: black;
+}
+
+input[type="text"],
+input[type="file"],
+input[type="url"],
+select,
+button[type="submit"] {
+	width: 100%;
+	height: 40px;
+	padding: 5px;
+	/*margin-bottom: 5px;*/
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-sizing: border-box;
+	font-size: 16px;
+	font-weight: bold;
+	
+}
+
+input[type="file"] {
+	cursor: pointer;
+}
+
+button[type="submit"] {
+	background-color: #4caf50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button[type="submit"]:hover {
+	background-color: #45a049;
+}
+
+@media screen and (max-width: 768px) {
+	form {
+		width: 90%;
+	}
+}
+
+
+

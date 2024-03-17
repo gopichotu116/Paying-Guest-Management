@@ -1,0 +1,180 @@
+
+/*--------------------------------- addLocation.html ---------------------------------*/
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
+}
+
+body {
+	background-image: url("/images/building8.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 100vh;
+}
+
+.container1 {
+	position: relative;
+	top: 35%;
+	left: 50%;
+	bottom: 100px;
+	transform: translate(-50%, -50%);
+	/*background: #fff;*/
+	background: none;
+	width: 450px;
+	height: 400px;
+	border-radius: 20px;
+	/*box-shadow: 10px 10px 10px rgb(110, 110, 110, 0.2);*/
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.box,
+.box button {
+	display: flex;
+	align-items: center;
+}
+
+.box {
+	width: 300px;
+	height: 240px;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.box button {
+	width: 100px;
+	height: 40px;
+	background-color: #fff;
+	outline: none;
+	font-weight: bold;
+	/*border: 1px solid rgb(211, 210, 210);*/
+	position: relative;
+	left: 90px;
+	border-radius: 20px;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+
+
+.box-two input {
+	position: relative;
+	width: 300px;
+	height: 55px;
+	outline: none;
+	border: 1px solid rgb(211, 210, 210);
+	border-radius: 10px;
+	padding-left: 10px;
+}
+
+.box-two input label {
+	position: absolute;
+	top: 0;
+}
+
+.box-two input::placeholder {
+	font-size: 1rem;
+}
+
+
+[type=text] {
+	font-size: large;
+	font-weight: bold;
+}
+
+.container1>h1 {
+	font-weight: bold;
+	color: orangered;
+}
+
+.box-two input:focus {
+	border: 2px solid #00acee;
+}
+
+
+.box-two .next-button {
+	background-color: #00acee;
+	
+	color: white;
+	font-weight: bold;
+	font-size: large;
+}
+
+/* ------------------------------- searchLocation.html ---------------------------------------*/
+
+body.img {
+	background-image: url("/images/building4.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 100vh;
+}
+
+
+.container1>h1.heading {
+	font-weight: bold;
+	color: snow;
+}
+
+.box-two select {
+	position: relative;
+	width: 300px;
+	height: 55px;
+	outline: none;
+	border: 1px solid rgb(211, 210, 210);
+	border-radius: 10px;
+	padding-left: 10px;
+}
+
+.box-two select label {
+	position: absolute;
+	top: 0;	
+}
+
+.box-two select::placeholder {
+	font-size: 1rem;
+}
+
+.box-two select:focus {
+	border: 2px solid #00acee;
+}
+
+
+/* ------------------------------- searchPg.html ---------------------------------------*/
+
+body.search {
+	background-image: url("/images/building1.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 100vh;
+}
+
+.container-2 {
+	position: relative;
+	top: 35%;
+	left: 50%;
+	bottom: 100px;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	width: 450px;
+	height: 400px;
+	border-radius: 20px;
+	box-shadow: 10px 10px 10px rgb(110, 110, 110, 0.2);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.container-2>button.next-button{
+	background: burlywood;
+}
+
