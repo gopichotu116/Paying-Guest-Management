@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.org.payingGuest.entity.Area;
-import com.org.payingGuest.entity.Pg;
 import com.org.payingGuest.repository.AreaRepository;
 import com.org.payingGuest.repository.LocationRepository;
 

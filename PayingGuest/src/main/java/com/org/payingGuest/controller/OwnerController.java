@@ -19,8 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.org.payingGuest.entity.Owner;
 import com.org.payingGuest.entity.Pg;
-import com.org.payingGuest.entity.User;
-import com.org.payingGuest.service.AreaService;
 import com.org.payingGuest.service.OwnerService;
 import com.org.payingGuest.service.PgService;
 
@@ -32,13 +30,13 @@ public class OwnerController {
 
 	@Autowired
 	private PgService pgService;
-	
+
 	private String name;
 
 	private Integer id;
 
 	private byte[] profileImage;
-	
+
 	@ModelAttribute("ownerName")
 	public String addNameAttribute() {
 		String ownerName = name;
@@ -50,13 +48,13 @@ public class OwnerController {
 		Integer ownerId = id;
 		return ownerId;
 	}
-	
+
 	@ModelAttribute("ownerProfileImage")
 	public String addImageAttribute() {
 		return profileImage != null ? Base64.getEncoder().encodeToString(profileImage) : "";
 	}
 
-	/** ----------------------------------------- Owner Signup --------------------------------------- */
+	/** ----------------------- Owner Signup ---------------------------- */
 
 	@GetMapping("/ownerSignup")
 	public String ownerSignup() {
@@ -66,7 +64,7 @@ public class OwnerController {
 	@PostMapping("/ownerSignup")
 	public String signup(@RequestParam("name") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("phno") String phno, Model model) {
-		if(passValidation(password)) {
+		if (passValidation(password)) {
 			Owner owner = new Owner(name, email, password, phno);
 			ownerService.save(owner);
 			model.addAttribute("successMsg", "YOUR ACCOUNT IS CREATED SUCCESSFULLY");
@@ -76,7 +74,7 @@ public class OwnerController {
 		return "owner/ownerSignup";
 	}
 
-	/** ----------------------------------------- Owner Login --------------------------------------- */
+	/** ----------------------- Owner Login ---------------------------- */
 
 	@GetMapping("/ownerLogin")
 	public String ownerLogin() {
@@ -90,25 +88,23 @@ public class OwnerController {
 			model.addAttribute("errorMsg", "INVALID EMAIL OR PASSWORD");
 			return "owner/ownerLogin";
 		}
-		name=ownerService.getNameById(ownerId);
-		id=ownerId;
-		System.out.println(id+"-------------------------------------");
-		System.out.println(ownerId);
+		name = ownerService.getNameById(ownerId);
+		id = ownerId;
 		return "owner/ownerHome";
 	}
 
-	/** -------------------------------------- Owner Home --------------------------------------- */
+	/** ----------------------- Owner Home ---------------------------- */
 
 	@GetMapping("/ownerHome")
 	public String ownerHomePage() {
 		return "owner/ownerHome";
 	}
 
-	/** -------------------------------------- Owners List ----------------------------------------- */
+	/** ----------------------- Owner List ---------------------------- */
 
 	@GetMapping("/ownersList")
 	public String ownersList(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
-		
+
 		List<Owner> usersList = ownerService.getAll();
 
 		int pageSize = 5; // Number of areas per page
@@ -120,11 +116,11 @@ public class OwnerController {
 		model.addAttribute("owners", paginatedAreas);
 		model.addAttribute("page", page);
 		model.addAttribute("totalPages", totalPages);
-		
+
 		return "admin/ownersList";
 	}
 
-	/** ----------------------------------------- PG --------------------------------------- */
+	/** ----------------------- PG ---------------------------- */
 
 	@GetMapping("/addPg")
 	public String addPg() {
@@ -139,7 +135,7 @@ public class OwnerController {
 			@RequestParam("boardImage") MultipartFile boardImage, @RequestParam("phno") String phno,
 			@RequestParam("maps") String maps, @RequestParam("address") String address, Model model)
 			throws IOException {
-		
+
 		Owner owner = ownerService.getById(id);
 		pgService.savePg(name, location, area, outsideImages, insideImages, rulesImage, rentCard, boardImage, phno,
 				maps, address, owner);
@@ -195,9 +191,9 @@ public class OwnerController {
 
 		return "owner/viewPg";
 	}
-	
-	/**----------------------------- Owner Profile ---------------------------------- */
-	
+
+	/** -------------------- Owner Profile------------------------------- */
+
 	@GetMapping("/ownerProfile")
 	public String ownerProfile(Model model) {
 		Owner owner = ownerService.getById(id);
@@ -207,18 +203,18 @@ public class OwnerController {
 				profileImage != null ? Base64.getEncoder().encodeToString(profileImage) : "");
 		return "owner/ownerProfile";
 	}
-	
+
 	@GetMapping("/editOwnerProfile/{id}")
 	public String editProfile(@PathVariable("id") Integer id, Model model) {
 		Owner owner = ownerService.getById(id);
 		model.addAttribute("ownerProfile", owner);
 		return "owner/editProfile";
 	}
-	
+
 	@PostMapping("/saveOwner")
 	public String updateOwner(@ModelAttribute Owner owner, Model model) {
 		model.addAttribute("ownerProfile", owner);
-		if(passValidation(owner.getPassword())) {
+		if (passValidation(owner.getPassword())) {
 			byte[] image = ownerService.getProfileImage(id);
 			owner.setProfilePicture(image);
 			ownerService.updateOwner(owner);
@@ -227,7 +223,7 @@ public class OwnerController {
 		model.addAttribute("password", "PASSWORD REQUIREMENTS NOT MATCHED");
 		return "owner/editProfile";
 	}
-	
+
 	@PostMapping("/saveOwnerProfileImage")
 	public String updateImage(@RequestParam("file") MultipartFile file) throws IOException {
 		Owner owner = ownerService.getById(id);
@@ -236,29 +232,29 @@ public class OwnerController {
 		ownerService.updateImage(id, profilePicture);
 		return "redirect:/ownerProfile";
 	}
-	
+
 	@GetMapping("/editOwnerProfileImage")
 	public String updateProfileImage() {
 		return "owner/editProfileImage";
 	}
-	
+
 	@GetMapping("/ownerForgotPass")
 	public String forgotPassword() {
 		return "owner/forgotPassword";
 	}
-	
+
 	@PostMapping("/ownerForgotPass")
 	public String getPassword(@RequestParam("email") String email, Model model) {
-		Owner owner=ownerService.getIdByEmail(email);
-		if(owner==null) {
+		Owner owner = ownerService.getIdByEmail(email);
+		if (owner == null) {
 			model.addAttribute("errorMsg", "INVALID EMAIL ADDRESS");
 			return "owner/forgotPassword";
 		}
 		model.addAttribute("successMsg", owner.getPassword());
 		return "owner/forgotPassword";
 	}
-	
-	/**----------------------------- Password Validation ---------------------------------- */
+
+	/** -------------------- Password Validation------------------------------- */
 
 	public boolean passValidation(String pass) {
 		String regexp = "(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=.*[0-9]).{5,16}";

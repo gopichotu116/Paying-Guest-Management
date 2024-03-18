@@ -23,15 +23,19 @@ public class PgController {
 
 	@Autowired
 	private PgService pgService;
-	
+
 	@Autowired
 	private OwnerService ownerService;
+
+	/** -------------------- Delete PG ------------------------ */
 
 	@GetMapping("/deletePg/{id}")
 	public String deletePg(@PathVariable("id") Integer id, Model model) {
 		pgService.deletePgById(id);
 		return "owner/deletePg";
 	}
+	
+	/** -------------------- Edit PG ------------------------ */
 
 	@GetMapping("/editPg/{id}")
 	public String editPg(@PathVariable("id") Integer id, Model model) {
@@ -40,6 +44,8 @@ public class PgController {
 		return "owner/editPg";
 	}
 
+	/** -------------------- Update PG ------------------------ */
+	
 	@PostMapping("/savePg")
 	public String updatePg(@ModelAttribute Pg pg, @RequestParam("outsideImages") List<MultipartFile> outsideImages,
 			@RequestParam("insideImages") List<MultipartFile> insideImages,
@@ -52,7 +58,7 @@ public class PgController {
 		pg.setRulesImage(rulesImage.getBytes());
 		pg.setRentCard(rentCard.getBytes());
 		pg.setBoardImage(boardImage.getBytes());
-		
+
 		Owner owner = ownerService.getById(1);
 		pg.setOwner(owner);
 		pgService.updatePg(pg);

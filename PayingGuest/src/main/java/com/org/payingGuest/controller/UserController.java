@@ -55,10 +55,7 @@ public class UserController {
 		return profileImage != null ? Base64.getEncoder().encodeToString(profileImage) : "";
 	}
 
-	/**
-	 * ----------------------------------- User SignUp
-	 * ------------------------------------
-	 */
+	/** --------------------------- User SignUp--------------------------- */
 
 	@GetMapping("/userSignup")
 	public String userSignup() {
@@ -68,7 +65,7 @@ public class UserController {
 	@PostMapping("/userSignup")
 	public String checkUserSingup(@RequestParam("name") String name, @RequestParam String email,
 			@RequestParam("password") String password, @RequestParam("phno") String phno, Model model) {
-		if(passValidation(password)) {
+		if (passValidation(password)) {
 			User user = new User(name, email, password, phno);
 			userService.save(user);
 			model.addAttribute("successMsg", "YOUR ACCOUNT IS CREATED SUCCESSFULLY");
@@ -78,10 +75,7 @@ public class UserController {
 		return "user/userSignup";
 	}
 
-	/**
-	 * ----------------------------------- User Login
-	 * ------------------------------------
-	 */
+	/** --------------------------- User Login--------------------------- */
 
 	@GetMapping("/userLogin")
 	public String userLogin() {
@@ -101,17 +95,14 @@ public class UserController {
 		return "user/userHome";
 	}
 
-	/**
-	 * ----------------------------------- User Home
-	 * ------------------------------------
-	 */
+	/** --------------------------- User Home--------------------------- */
 
 	@GetMapping("/userHome")
 	public String userHomePage() {
 		return "user/userHome";
 	}
 
-	/** ------------------------ Users List -------------------------------- */
+	/** ------------------------ Users List ------------------------------ */
 
 	@GetMapping("/usersList")
 	public String usersList(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
@@ -131,10 +122,7 @@ public class UserController {
 		return "admin/usersList";
 	}
 
-	/**
-	 * ----------------------------------- Search
-	 * PG------------------------------------
-	 */
+	/** ------------------------ Search PG ------------------------------ */
 
 	@GetMapping("/searchPg")
 	public String findPg() {
@@ -153,10 +141,7 @@ public class UserController {
 		return "user/pgsList";
 	}
 
-	/**
-	 * ----------------------------------- User
-	 * Profile------------------------------------
-	 */
+	/** ------------------------------- User Profile------------------------ */
 
 	@GetMapping("/userProfile")
 	public String userProfile(Model model) {
@@ -175,11 +160,10 @@ public class UserController {
 		return "/user/editProfile";
 	}
 
-
 	@PostMapping("/saveUser")
 	public String updateUser(@ModelAttribute User user, Model model) {
 		model.addAttribute("userProfile", user);
-		if(passValidation(user.getPassword())) {
+		if (passValidation(user.getPassword())) {
 			byte[] image = userService.getProfileImage(id);
 			user.setProfilePicture(image);
 			userService.updateUser(user);
@@ -188,7 +172,7 @@ public class UserController {
 		model.addAttribute("password", "PASSWORD REQUIREMENTS NOT MATCHED");
 		return "user/editProfile";
 	}
-	
+
 	@PostMapping("/saveUserProfileImage")
 	public String updateImage(@RequestParam("file") MultipartFile file) throws IOException {
 		User user = userService.getUserById(id);
@@ -197,29 +181,29 @@ public class UserController {
 		userService.updateImage(id, profilePicture);
 		return "redirect:/userProfile";
 	}
-	
+
 	@GetMapping("/editUserProfileImage")
 	public String updateProfileImage() {
 		return "user/editProfileImage";
 	}
-	
+
 	@GetMapping("/userForgotPass")
 	public String forgotPassword() {
 		return "user/forgotPassword";
 	}
-	
+
 	@PostMapping("/userForgotPass")
 	public String getPassword(@RequestParam("email") String email, Model model) {
-		User user=userService.getIdByEmail(email);
-		if(user==null) {
+		User user = userService.getIdByEmail(email);
+		if (user == null) {
 			model.addAttribute("errorMsg", "INVALID EMAIL ADDRESS");
 			return "user/forgotPassword";
 		}
 		model.addAttribute("successMsg", user.getPassword());
 		return "user/forgotPassword";
 	}
-	
-	/**----------------------------- Password Validation ---------------------------------- */
+
+	/** ------------------------- Password Validation ----------------------- */
 
 	public boolean passValidation(String pass) {
 		String regexp = "(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=.*[0-9]).{5,16}";

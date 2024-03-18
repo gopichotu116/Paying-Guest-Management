@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.org.payingGuest.entity.Area;
-import com.org.payingGuest.entity.Pg;
 
 @Repository
 public interface AreaRepository extends JpaRepository<Area, Integer> {
@@ -19,9 +18,7 @@ public interface AreaRepository extends JpaRepository<Area, Integer> {
 	List<String> findNamesByLocationId(Integer locId);
 
 	
-	@Query("SELECT a from Area a WHERE a.location.id=:id")
+	@Query("SELECT a from Area a WHERE a.location.id=:id ORDER BY a.name")
 	List<Area> findAreasByLocationId(Integer id);
-
-//	List<Area> findByLocationId(Integer locationId);
 
 }

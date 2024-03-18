@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class AppController {
-	
+
 	@GetMapping("/home")
 	public String homePage() {
 		return "fragments/home";

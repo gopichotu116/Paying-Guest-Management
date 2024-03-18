@@ -19,8 +19,7 @@ public class PgService {
 	private PgRepository pgRepo;
 	
 	public Pg getPg(Integer id) {
-		return pgRepo.findById(id).orElse(null);
-//		return pgRepo.findById(id).get();
+		return pgRepo.findById(id).get();
 	}
 	
 	public void savePg(String name, String location, String area, List<MultipartFile> outsideImages,
@@ -34,6 +33,7 @@ public class PgService {
 		pg.setMaps(maps);
 		pg.setAddress(address);
 		pg.setOwner(owner);
+		
 		// Convert and set image data
         pg.setOutsideImages(convertImages(outsideImages));
         pg.setInsideImages(convertImages(insideImages));
@@ -42,8 +42,6 @@ public class PgService {
         pg.setRentCard(rentCard.getBytes());
         pg.setBoardImage(boardImage.getBytes());
 		
-// Convert and set image data
-// Add logic here to convert MultipartFile to byte[] and set it to the corresponding fields
 		pgRepo.save(pg);
 	}
 	
