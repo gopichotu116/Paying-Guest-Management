@@ -8,46 +8,60 @@
 	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
 </head>
 
-<body class="owner">
-	<th:block th:replace="~{/fragments/navbar :: navbar}"></th:block>
+<body>
+	<th:block th:insert="~{/owner/navbar :: navbar}"></th:block>
+
 	<div class="main">
 
-		<form class="form-1" action="/ownerSignup" method="post">
-			<h1 style="text-align: center; font-weight: bold; color: ghostwhite;">OWNER SIGNUP</h1>
+		<form class="form-1" action="/adminLogin" method="post" th:action="@{/saveOwner}" th:object="${ownerProfile}">
+			<h1 style="text-align: center; font-weight: bold; color: aliceblue;">EDIT PROFILE</h1>
 
+			<input type="hidden" name="id" th:value="${ownerProfile.id}" />
 
+			<div class="flex-column">
+				<label>Name</label>
+			</div>
 			<div class="inputForm">
-				<input placeholder="Enter your UserName" name="name" class="input" type="text" required />
+				<input name="name" class="input" type="text" th:value="${ownerProfile.name}" required />
 			</div>
 
+			<div class="flex-column">
+				<label>Email</label>
+			</div>
 			<div class="inputForm">
-				<input placeholder="Enter your Email" name="email" class="input" type="email" required />
+				<input name="email" class="input" type="text" th:value="${ownerProfile.email}" required />
 			</div>
 
 			<div class="password" th:if="${not #strings.isEmpty(password)}">
 				<h6 style="font-weight: bold;" class="text-center text-warning fs-10" th:text="${password}"></h6>
 			</div>
 
+			<div class="flex-column">
+				<label>Password (Scroll down for Password Requirements) </label>
+			</div>
 			<div class="inputForm">
-				<input placeholder="Enter your Password" name="password" class="input" type="password" required />
+				<input name="password" class="input" type="password" th:value="${ownerProfile.password}" required />
+			</div>
+
+			<div class="flex-column">
+				<label>Mobile No </label>
+			</div>
+			<div class="inputForm">
+				<input name="phno" class="input" type="text" th:value="${ownerProfile.phno}" required />
 			</div>
 
 
-			<div class="inputForm">
-				<input placeholder="Enter your Phone Number" name="phno" class="input" type="text" required />
-			</div>
-
-			<button type="submit" class="button-submit">Signup</button>
-			<p class="p">Already have an account? <a class="link" href="/ownerLogin">Login</a></p>
+			<button type="submit" class="button-submit">Submit</button>
 
 		</form>
 
-	</div><br><br>
+	</div><br>
 
 	<div class="container">
 		<div class="card mx-auto mt-4" style="max-width: 500px;">
 			<div class="card-body">
-				<h2 class="card-title text-center" style="color: black; font-weight: bold;">Password Requirements</h2>
+				<h2 class="card-title text-center" style="color: black; font-weight: bold;">Password Requirements
+				</h2>
 				<ul class="list-group">
 					<li class="list-group-item text-center">Should be 5-16 characters.</li>
 					<li class="list-group-item text-center">At least 1 capital letter.</li>
@@ -57,6 +71,11 @@
 			</div>
 		</div>
 	</div>
+
+
+
+
+	<div th:replace="~{/fragments/footer :: footer}"></div>
 
 	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
 	<script type="text/javascript" src="/js/all.min.js"></script>

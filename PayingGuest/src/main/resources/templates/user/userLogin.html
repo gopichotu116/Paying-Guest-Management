@@ -18,29 +18,29 @@
 	<th:block th:replace="~{/fragments/navbar :: navbar}"></th:block>
 
 	<div class="main2">
-	
+
 		<div class="container-1">
 			<div class="heading">USER LOGIN</div>
-	
+
 			<div class="errorMsg" th:if="${not #strings.isEmpty(errorMsg)}">
 				<h2 style="font-weight: bold;" class="text-center text-danger fs-5" th:text="${errorMsg}"></h2>
 			</div>
-	
+
 			<div class="successMsg" th:if="${not #strings.isEmpty(successMsg)}">
 				<h2 th:text="${successMsg}"></h2>
 			</div>
-	
-	
+
+
 			<form action="/userLogin" class="form2" method="post">
 				<input required="" class="input" type="email" name="email" id="email" placeholder="E-mail">
 				<input required="" class="input" type="password" name="password" id="password" placeholder="Password">
 				<input class="login-button" type="submit" value="Login">
 				<span class="forgot-password">Create an account? <a href="/userSignup">SIGNUP</a></span> <br><br>
 				<span class="forgot-password1"><a href="/userForgotPass">Forgot Password ?</a></span>
-	
+
 			</form>
 		</div>
-		
+
 		<div th:if="${not #strings.isEmpty(password)}" class="alert alert-success hide-msg" style="text-align: center;"
 			role="alert">
 			<ul class="list-group list-group-flush">

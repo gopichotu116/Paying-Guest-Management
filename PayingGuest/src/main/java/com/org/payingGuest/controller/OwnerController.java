@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.org.payingGuest.entity.Owner;
 import com.org.payingGuest.entity.Pg;
+import com.org.payingGuest.entity.User;
 import com.org.payingGuest.service.AreaService;
 import com.org.payingGuest.service.OwnerService;
 import com.org.payingGuest.service.PgService;
@@ -28,6 +32,29 @@ public class OwnerController {
 
 	@Autowired
 	private PgService pgService;
+	
+	private String name;
+
+	private Integer id;
+
+	private byte[] profileImage;
+	
+	@ModelAttribute("ownerName")
+	public String addNameAttribute() {
+		String ownerName = name;
+		return ownerName;
+	}
+
+	@ModelAttribute("ownerId")
+	public Integer addIdAttribute() {
+		Integer ownerId = id;
+		return ownerId;
+	}
+	
+	@ModelAttribute("ownerProfileImage")
+	public String addImageAttribute() {
+		return profileImage != null ? Base64.getEncoder().encodeToString(profileImage) : "";
+	}
 
 	/** ----------------------------------------- Owner Signup --------------------------------------- */
 
@@ -39,10 +66,14 @@ public class OwnerController {
 	@PostMapping("/ownerSignup")
 	public String signup(@RequestParam("name") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("phno") String phno, Model model) {
-		Owner owner = new Owner(name, email, password, phno);
-		ownerService.save(owner);
-		model.addAttribute("successMsg", "YOUR ACCOUNT IS CREATED SUCCESSFULLY");
-		return "owner/ownerLogin";
+		if(passValidation(password)) {
+			Owner owner = new Owner(name, email, password, phno);
+			ownerService.save(owner);
+			model.addAttribute("successMsg", "YOUR ACCOUNT IS CREATED SUCCESSFULLY");
+			return "owner/ownerLogin";
+		}
+		model.addAttribute("password", "PASSWORD REQUIREMENTS NOT MATCHED");
+		return "owner/ownerSignup";
 	}
 
 	/** ----------------------------------------- Owner Login --------------------------------------- */
@@ -59,7 +90,11 @@ public class OwnerController {
 			model.addAttribute("errorMsg", "INVALID EMAIL OR PASSWORD");
 			return "owner/ownerLogin";
 		}
-		return "redirect:/ownerHome";
+		name=ownerService.getNameById(ownerId);
+		id=ownerId;
+		System.out.println(id+"-------------------------------------");
+		System.out.println(ownerId);
+		return "owner/ownerHome";
 	}
 
 	/** -------------------------------------- Owner Home --------------------------------------- */
@@ -104,8 +139,8 @@ public class OwnerController {
 			@RequestParam("boardImage") MultipartFile boardImage, @RequestParam("phno") String phno,
 			@RequestParam("maps") String maps, @RequestParam("address") String address, Model model)
 			throws IOException {
-		Integer ownerId = 1;
-		Owner owner = ownerService.getById(ownerId);
+		
+		Owner owner = ownerService.getById(id);
 		pgService.savePg(name, location, area, outsideImages, insideImages, rulesImage, rentCard, boardImage, phno,
 				maps, address, owner);
 		model.addAttribute("successMsg", "PG IS ADDED SUCCESSFULLY");
@@ -159,5 +194,76 @@ public class OwnerController {
 		model.addAttribute("pg", pg);
 
 		return "owner/viewPg";
+	}
+	
+	/**----------------------------- Owner Profile ---------------------------------- */
+	
+	@GetMapping("/ownerProfile")
+	public String ownerProfile(Model model) {
+		Owner owner = ownerService.getById(id);
+		model.addAttribute("ownerProfile", owner);
+		profileImage = ownerService.getProfileImage(owner.getId());
+		model.addAttribute("ownerProfileImage",
+				profileImage != null ? Base64.getEncoder().encodeToString(profileImage) : "");
+		return "owner/ownerProfile";
+	}
+	
+	@GetMapping("/editOwnerProfile/{id}")
+	public String editProfile(@PathVariable("id") Integer id, Model model) {
+		Owner owner = ownerService.getById(id);
+		model.addAttribute("ownerProfile", owner);
+		return "owner/editProfile";
+	}
+	
+	@PostMapping("/saveOwner")
+	public String updateOwner(@ModelAttribute Owner owner, Model model) {
+		model.addAttribute("ownerProfile", owner);
+		if(passValidation(owner.getPassword())) {
+			byte[] image = ownerService.getProfileImage(id);
+			owner.setProfilePicture(image);
+			ownerService.updateOwner(owner);
+			return "redirect:/ownerProfile";
+		}
+		model.addAttribute("password", "PASSWORD REQUIREMENTS NOT MATCHED");
+		return "owner/editProfile";
+	}
+	
+	@PostMapping("/saveOwnerProfileImage")
+	public String updateImage(@RequestParam("file") MultipartFile file) throws IOException {
+		Owner owner = ownerService.getById(id);
+		owner.setProfilePicture(file.getBytes());
+		byte[] profilePicture = owner.getProfilePicture();
+		ownerService.updateImage(id, profilePicture);
+		return "redirect:/ownerProfile";
+	}
+	
+	@GetMapping("/editOwnerProfileImage")
+	public String updateProfileImage() {
+		return "owner/editProfileImage";
+	}
+	
+	@GetMapping("/ownerForgotPass")
+	public String forgotPassword() {
+		return "owner/forgotPassword";
+	}
+	
+	@PostMapping("/ownerForgotPass")
+	public String getPassword(@RequestParam("email") String email, Model model) {
+		Owner owner=ownerService.getIdByEmail(email);
+		if(owner==null) {
+			model.addAttribute("errorMsg", "INVALID EMAIL ADDRESS");
+			return "owner/forgotPassword";
+		}
+		model.addAttribute("successMsg", owner.getPassword());
+		return "owner/forgotPassword";
+	}
+	
+	/**----------------------------- Password Validation ---------------------------------- */
+
+	public boolean passValidation(String pass) {
+		String regexp = "(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=.*[0-9]).{5,16}";
+		Matcher m = Pattern.compile(regexp).matcher(pass);
+		return m.matches();
+
 	}
 }

@@ -1,4 +1,19 @@
 <div th:fragment="navbar" class="sticky-top">
+	<style>
+		.profile-image-container {
+			width: 50px;
+			height: 50px;
+			overflow: hidden;
+			border-radius: 50%;
+		}
+
+		.profile-image {
+			width: 100%;
+			height: auto;
+			object-fit: cover;
+		}
+	</style>
+	
 	<link rel="stylesheet" th:href="@{/css/dropdown.css}">
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
@@ -49,37 +64,41 @@
 
 			<!-- Right elements -->
 			<div class="d-flex align-items-center">
-				<!-- Avatar -->
 
+				<span class="me-2" style="font-size: large; font-weight: bold; color: black; height: 20px;"
+					th:text="${ownerName}"></span>
+
+				<!-- Avatar -->
 				<div class="dropdown">
 					<a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
 						id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
 
-						<!--<img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="40"
-							alt="Black and White Portrait of a Man" loading="lazy" />-->
 
 						<div class="profile-image-container">
-							<!--<img th:src="'data:image/jpeg;base64,' + ${profileImage}" class="profile-image" alt="Profile Image">-->
-							<img th:src="'data:image/jpeg;base64,' + ${profileImage}" class="profile-image" alt="">
+							<img th:src="'data:image/jpeg;base64,' + ${ownerProfileImage}" class="profile-image" alt="">
 							<i class="fa fa-user fa-2x" aria-hidden="true"></i>
 						</div>
-						<span style="font-size: large; font-weight: bold; color: black; height: 30px;"
-							th:text="${name}"></span>
-
 
 					</a>
 					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
 
 						<li>
-							<a class="dropdown-item text-success" href="#">Profile
-								<i class="fas fa-user ml-1"></i>
+							<a class="dropdown-item text-success" href="/ownerProfile">
+								<i class="fas fa-user me-3"></i>Profile
 							</a>
 						</li>
 
 						<li>
-							<a class="dropdown-item text-primary" href="#">Edit profile <i
-									class="fas fa-pen-to-square"></i></a>
+							<!--th:href="@{/editUserProfile/{id}(id=${userId})}"-->
+							<a class="dropdown-item text-info" th:href="@{/editOwnerProfile/{id}(id=${ownerId})}">
+								<i class="fas fa-pen-to-square me-2"></i> Edit profile </a>
 						</li>
+
+						<li>
+							<a class="dropdown-item text-warning" th:href="@{/editOwnerProfileImage}">
+								<i class="fas fa-images me-2"></i>Change profile image </a>
+						</li>
+
 
 						<li>
 							<a class="dropdown-item text-danger" href="/home">Logout <i

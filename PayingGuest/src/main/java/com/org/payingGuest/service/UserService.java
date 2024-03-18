@@ -25,6 +25,10 @@ public class UserService {
 		return userRepo.findIdByEmailAndPassword(email, password);
 	}
 
+	public User getUserById(Integer id) {
+		return userRepo.findById(id).get();
+	}
+	
 	public List<User> getAll() {
 		return userRepo.findAll();
 	}
@@ -33,9 +37,6 @@ public class UserService {
 		return userRepo.findNameById(userId);
 	}
 
-	public User getUserById(Integer id) {
-		return userRepo.findById(id).get();
-	}
 
 	public void updateUser(User user) {
 		userRepo.save(user);
