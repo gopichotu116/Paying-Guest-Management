@@ -1,6 +1,7 @@
 package com.org.payingGuest.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -92,6 +93,10 @@ public class UserController {
 		}
 		name = userService.getNameById(userId);
 		id = userId;
+		model.addAttribute("userName", name);
+		profileImage = userService.getProfileImage(id);
+		model.addAttribute("userProfileImage",
+				profileImage != null ? Base64.getEncoder().encodeToString(profileImage) : "");
 		return "user/userHome";
 	}
 
@@ -132,13 +137,48 @@ public class UserController {
 	@PostMapping("/searchPg")
 	public String listOfPg(@RequestParam("location") String location, @RequestParam("area") String area, Model model) {
 		List<Pg> pgs = pgService.getPgsByLocationAndArea(location, area);
-
-		for (Pg pg : pgs) {
-
-		}
-
 		model.addAttribute("pgs", pgs);
 		return "user/pgsList";
+	}
+
+	/** ------------------------ Search PG ------------------------------ */
+
+	@GetMapping("/viewPg/{id}")
+	public String viewPg(@PathVariable Integer id, Model model) {
+
+		Pg pg = pgService.getById(id);
+
+		byte[] boardImage = pg.getBoardImage();
+		model.addAttribute("boardImage", boardImage != null ? Base64.getEncoder().encodeToString(boardImage) : "");
+
+		byte[] rentCard = pg.getRentCard();
+		model.addAttribute("rentCard", rentCard != null ? Base64.getEncoder().encodeToString(rentCard) : "");
+
+		byte[] rulesImage = pg.getRulesImage();
+		model.addAttribute("rulesImage", rulesImage != null ? Base64.getEncoder().encodeToString(rulesImage) : "");
+
+		List<byte[]> outsideImages = pg.getOutsideImages();
+		List<String> outside = new ArrayList<>();
+
+		if (outsideImages != null) {
+			for (byte[] image : outsideImages) {
+				outside.add(Base64.getEncoder().encodeToString(image));
+			}
+		}
+
+		List<byte[]> insideImages = pg.getInsideImages();
+		List<String> inside = new ArrayList<>();
+		if (insideImages != null) {
+			for (byte[] image : insideImages) {
+				inside.add(Base64.getEncoder().encodeToString(image));
+			}
+		}
+
+		model.addAttribute("outsideImages", outside);
+		model.addAttribute("insideImages", inside);
+
+		model.addAttribute("pg", pg);
+		return "user/viewPg";
 	}
 
 	/** ------------------------------- User Profile------------------------ */

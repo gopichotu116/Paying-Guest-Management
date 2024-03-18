@@ -6,39 +6,49 @@
 	<title>PGs List</title>
 	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
 
+	<style>
+		body {
+			background-image: url("/images/background7.jpg");
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: cover;
+		}
+
+		.custom-card {
+			border: 1px solid #ced4da;
+			box-shadow: black;
+			border-radius: 50px;
+			max-width: 1100px;
+			margin: 0 auto;
+			margin-bottom: 10px;
+
+		}
+	</style>
+
 </head>
 
 <body>
 	<th:block th:insert="~{/user/navbar :: navbar}"></th:block>
 
-	<h1 class="text-center">LIST OF PGS</h1>
+	<h1 class="text-center text-light">LIST OF PGS</h1>
 
-	<!-- First Card-->
-	<div th:each="pg : ${pgs}">
-		<div class="card mb-3">
-			<div class="row g-0">
+	<div class="container-fluid  justify-content-center">
+		<!-- Loop through objects and generate cards -->
+		<div th:each="pg : ${pgs}" class="col-md-14 mt-2">
+			<div class="card custom-card">
+				<div class="card-body text-center">
 
-					<div class="col-md-4">
-						<img th:src="'data:image/jpeg;base64,' + ${pg.boardImage}" class="profile-image rounded-circle"
-							alt="profile" style="max-width: 100px; max-height: 100px;">
-					</div>
-
-				<div class="col-md-8">
-					<div class="card-body">
-						<h5 class="card-title text-center text-warning">
-							<p th:text="${pg.name}"></p>
-						</h5>
-						<h6><p class="card-text" th:text="${pg.location}"></h6>
-						</p>
-						<p>Whether you're a tenant looking for a welcoming environment to call home or a landlord
-							seeking to
-							connect with tenants who share your values, Paying Guest is here to facilitate those
-							connections. Join our community today and experience the power of connection.</p>
-					</div>
+					<h4 style="font-weight: bold; color: black;"><span th:text="${pg.name}"></span></h4>
+					<h6>Location: <span class="text-warning" th:text="${pg.location}"></span></h6>
+					<h6>Address: <span class="text-info" th:text="${pg.address}"></span></h6>
+					<a th:href="@{/viewPg/{id}(id=${pg.id})}" class="btn btn-primary btn-rounded"><i
+							class="fas fa-eye me-1"></i>View Pg</a>
 				</div>
 			</div>
 		</div>
+		
 	</div>
+
 	<div th:replace="~{/fragments/footer :: footer}"></div>
 
 	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>

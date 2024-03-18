@@ -90,6 +90,10 @@ public class OwnerController {
 		}
 		name = ownerService.getNameById(ownerId);
 		id = ownerId;
+		model.addAttribute("ownerName", name);
+		profileImage = ownerService.getProfileImage(id);
+		model.addAttribute("ownerProfileImage",
+				profileImage != null ? Base64.getEncoder().encodeToString(profileImage) : "");
 		return "owner/ownerHome";
 	}
 
