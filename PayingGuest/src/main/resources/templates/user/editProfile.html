@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/userLogin.css}">
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+</head>
+
+<body>
+	<th:block th:insert="~{/user/navbar :: navbar}"></th:block>
+
+	<div class="main">
+
+		<div class="container-1">
+			<div class="heading">EDIT PROFILE</div>
+			<form class="form2" method="post" th:action="@{/saveUser}" th:object="${userProfile}">
+				<input type="hidden" name="id" th:value="${userProfile.id}" />
+
+				<label for="name" class="form-label">Name</label>
+				<input required="" class="input" type="text" name="name" id="name" th:value="${userProfile.name}">
+
+				<label for="name" class="form-label">Email</label>
+				<input required="" class="input" type="email" name="email" id="email" th:value="${userProfile.email}"
+					readonly>
+
+				<p class="text-center text-danger" style="position: relative; top: 15px; font-weight: bold;"
+					th:text="${password}"><i class="fas fa-arrow-turn-down"></i></p>
+
+				<label for="name" class="form-label">Password (Scroll down for Password Requirements)</label>
+				<input required="" class="input" type="password" name="password" id="password"
+					th:value="${userProfile.password}">
+
+				<label for="name" class="form-label">Mobile No</label>
+				<input required="" class="input" type="text" name="phno" id="phno" th:value="${userProfile.phno}">
+
+
+				<input class="login-button" type="submit" value="Submit">
+
+			</form>
+		</div>
+	</div>
+	<div class="container">
+		<div class="card mx-auto mt-4" style="max-width: 500px;">
+			<div class="card-body">
+				<h2 class="card-title text-center" style="color: black; font-weight: bold;">Password Requirements
+				</h2>
+				<ul class="list-group">
+					<li class="list-group-item text-center">Should be 5-16 characters.</li>
+					<li class="list-group-item text-center">At least 1 capital letter.</li>
+					<li class="list-group-item text-center">At least 1 special character.</li>
+					<li class="list-group-item text-center">At least 1 digit.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<div th:replace="~{/fragments/footer :: footer}"></div>
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+</body>
+
+</html>

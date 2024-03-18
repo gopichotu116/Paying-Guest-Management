@@ -5,6 +5,13 @@ body {
 	background-size: cover;
 }
 
+label.form-label{
+	font-weight: bold;
+	position: relative;
+	bottom: -20px;
+	color: green;
+}
+
 .main {
 	display: flex;
 	justify-content: center;

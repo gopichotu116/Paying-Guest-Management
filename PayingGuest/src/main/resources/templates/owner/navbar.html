@@ -1,6 +1,5 @@
-
 <div th:fragment="navbar" class="sticky-top">
-<link rel="stylesheet" th:href="@{/css/dropdown.css}">
+	<link rel="stylesheet" th:href="@{/css/dropdown.css}">
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
 		<!-- Container wrapper -->
@@ -33,10 +32,12 @@
 					<li class="nav-item">
 						<div class="paste-button">
 							<button class="button"><a style="color: white;" aria-current="page">
-							<i class="fas fa-hotel me-2"></i>PG</a>&nbsp;▼</button>
+									<i class="fas fa-hotel me-2"></i>PG</a>&nbsp;▼</button>
 							<div class="dropdown-content">
-								<a id="top" href="/myPgs"><i class="fas fa-right-to-bracket me-2"></i> VIEW MY PGs <span><i class="fas fa-eye"></i></span></a>
-								<a id="bottom" href="/addPg"><i class="fas fa-right-to-bracket me-2"></i> ADD NEW PG <span><i class="fas fa-circle-plus"></i></span></a>
+								<a id="top" href="/myPgs"><i class="fas fa-right-to-bracket me-2"></i> VIEW MY PGs
+									<span><i class="fas fa-eye"></i></span></a>
+								<a id="bottom" href="/addPg"><i class="fas fa-right-to-bracket me-2"></i> ADD NEW PG
+									<span><i class="fas fa-circle-plus"></i></span></a>
 							</div>
 						</div>
 
@@ -53,8 +54,19 @@
 				<div class="dropdown">
 					<a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
 						id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
-						<img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="40"
-							alt="Black and White Portrait of a Man" loading="lazy" />
+
+						<!--<img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="40"
+							alt="Black and White Portrait of a Man" loading="lazy" />-->
+
+						<div class="profile-image-container">
+							<!--<img th:src="'data:image/jpeg;base64,' + ${profileImage}" class="profile-image" alt="Profile Image">-->
+							<img th:src="'data:image/jpeg;base64,' + ${profileImage}" class="profile-image" alt="">
+							<i class="fa fa-user fa-2x" aria-hidden="true"></i>
+						</div>
+						<span style="font-size: large; font-weight: bold; color: black; height: 30px;"
+							th:text="${name}"></span>
+
+
 					</a>
 					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
 

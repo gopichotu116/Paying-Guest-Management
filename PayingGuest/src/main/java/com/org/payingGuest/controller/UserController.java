@@ -1,15 +1,20 @@
 package com.org.payingGuest.controller;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.org.payingGuest.entity.Pg;
 import com.org.payingGuest.entity.User;
@@ -21,11 +26,39 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private PgService pgService;
 
-	/**----------------------------------- User SignUp ------------------------------------*/
+	private String name;
+
+	private Integer id;
+
+	private byte[] profileImage;
+
+	/** --------------------------- Model Attributes------------------------- */
+
+	@ModelAttribute("userName")
+	public String addNameAttribute() {
+		String userName = name;
+		return userName;
+	}
+
+	@ModelAttribute("userId")
+	public Integer addIdAttribute() {
+		Integer userId = id;
+		return userId;
+	}
+
+	@ModelAttribute("userProfileImage")
+	public String addImageAttribute() {
+		return profileImage != null ? Base64.getEncoder().encodeToString(profileImage) : "";
+	}
+
+	/**
+	 * ----------------------------------- User SignUp
+	 * ------------------------------------
+	 */
 
 	@GetMapping("/userSignup")
 	public String userSignup() {
@@ -35,14 +68,20 @@ public class UserController {
 	@PostMapping("/userSignup")
 	public String checkUserSingup(@RequestParam("name") String name, @RequestParam String email,
 			@RequestParam("password") String password, @RequestParam("phno") String phno, Model model) {
-		User user = new User(name, email, password, phno);
-		userService.save(user);
-		model.addAttribute("successMsg", "YOUR ACCOUNT IS CREATED SUCCESSFULLY");
-		return "user/userLogin";
+		if(passValidation(password)) {
+			User user = new User(name, email, password, phno);
+			userService.save(user);
+			model.addAttribute("successMsg", "YOUR ACCOUNT IS CREATED SUCCESSFULLY");
+			return "user/userLogin";
+		}
+		model.addAttribute("password", "PASSWORD REQUIREMENTS NOT MATCHED");
+		return "user/userSignup";
 	}
 
-	/** ----------------------------------- User Login ------------------------------------*/
-	 
+	/**
+	 * ----------------------------------- User Login
+	 * ------------------------------------
+	 */
 
 	@GetMapping("/userLogin")
 	public String userLogin() {
@@ -57,10 +96,15 @@ public class UserController {
 			model.addAttribute("errorMsg", "INVALID EMAIL OR PASSWORD");
 			return "user/userLogin";
 		}
+		name = userService.getNameById(userId);
+		id = userId;
 		return "user/userHome";
 	}
 
-	/**----------------------------------- User Home ------------------------------------*/
+	/**
+	 * ----------------------------------- User Home
+	 * ------------------------------------
+	 */
 
 	@GetMapping("/userHome")
 	public String userHomePage() {
@@ -87,7 +131,10 @@ public class UserController {
 		return "admin/usersList";
 	}
 
-	/** ----------------------------------- Search PG------------------------------------*/
+	/**
+	 * ----------------------------------- Search
+	 * PG------------------------------------
+	 */
 
 	@GetMapping("/searchPg")
 	public String findPg() {
@@ -95,16 +142,89 @@ public class UserController {
 	}
 
 	@PostMapping("/searchPg")
-	public String listOfPg(@RequestParam("location") String location, 
-			@RequestParam("area") String area, Model model) {
+	public String listOfPg(@RequestParam("location") String location, @RequestParam("area") String area, Model model) {
 		List<Pg> pgs = pgService.getPgsByLocationAndArea(location, area);
-		
-		for(Pg pg:pgs) {
-			
+
+		for (Pg pg : pgs) {
+
 		}
-		
+
 		model.addAttribute("pgs", pgs);
 		return "user/pgsList";
 	}
 
+	/**
+	 * ----------------------------------- User
+	 * Profile------------------------------------
+	 */
+
+	@GetMapping("/userProfile")
+	public String userProfile(Model model) {
+		User user = userService.getUserById(id);
+		model.addAttribute("userProfile", user);
+		profileImage = userService.getProfileImage(user.getId());
+		model.addAttribute("userProfileImage",
+				profileImage != null ? Base64.getEncoder().encodeToString(profileImage) : "");
+		return "user/userProfile";
+	}
+
+	@GetMapping("/editUserProfile/{id}")
+	public String editProfile(@PathVariable("id") Integer id, Model model) {
+		User user = userService.getUserById(id);
+		model.addAttribute("userProfile", user);
+		return "/user/editProfile";
+	}
+
+
+	@PostMapping("/saveUser")
+	public String updateUser(@ModelAttribute User user, Model model) {
+		model.addAttribute("userProfile", user);
+		if(passValidation(user.getPassword())) {
+			byte[] image = userService.getProfileImage(id);
+			user.setProfilePicture(image);
+			userService.updateUser(user);
+			return "redirect:/userProfile";
+		}
+		model.addAttribute("password", "PASSWORD REQUIREMENTS NOT MATCHED");
+		return "user/editProfile";
+	}
+	
+	@PostMapping("/saveUserProfileImage")
+	public String updateImage(@RequestParam("file") MultipartFile file) throws IOException {
+		User user = userService.getUserById(id);
+		user.setProfilePicture(file.getBytes());
+		byte[] profilePicture = user.getProfilePicture();
+		userService.updateImage(id, profilePicture);
+		return "redirect:/userProfile";
+	}
+	
+	@GetMapping("/editUserProfileImage")
+	public String updateProfileImage() {
+		return "user/editProfileImage";
+	}
+	
+	@GetMapping("/userForgotPass")
+	public String forgotPassword() {
+		return "user/forgotPassword";
+	}
+	
+	@PostMapping("/userForgotPass")
+	public String getPassword(@RequestParam("email") String email, Model model) {
+		User user=userService.getIdByEmail(email);
+		if(user==null) {
+			model.addAttribute("errorMsg", "INVALID EMAIL ADDRESS");
+			return "user/forgotPassword";
+		}
+		model.addAttribute("successMsg", user.getPassword());
+		return "user/forgotPassword";
+	}
+	
+	/**----------------------------- Password Validation ---------------------------------- */
+
+	public boolean passValidation(String pass) {
+		String regexp = "(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=.*[0-9]).{5,16}";
+		Matcher m = Pattern.compile(regexp).matcher(pass);
+		return m.matches();
+
+	}
 }

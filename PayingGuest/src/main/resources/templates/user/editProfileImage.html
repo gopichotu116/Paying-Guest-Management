@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/userLogin.css}">
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+	<style>
+		
+	</style>
+</head>
+
+<body>
+	<th:block th:insert="~{/user/navbar :: navbar}"></th:block>
+
+	<div class="main">
+
+		<div class="container-1">
+			<div class="heading">EDIT PROFILE IMAGE</div>
+			<form class="form2" method="post" th:action="@{/saveUserProfileImage}"
+				enctype="multipart/form-data">
+				
+
+				<img style="height: 200px; width: 200px; border-radius: 50%; position: relative; left: 75px;" 
+				th:src="'data:image/jpeg;base64,' + ${userProfileImage}" class="profile-image" alt=""><br><br>
+				<label for="pic" class="form-label">Edit Pic</label><br><br>
+				<input type="file" name="file" required>
+				<input class="login-button" type="submit" value="Submit">
+
+			</form>
+		</div>
+	</div>
+
+	<div th:replace="~{/fragments/footer :: footer}"></div>
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+</body>
+
+</html>

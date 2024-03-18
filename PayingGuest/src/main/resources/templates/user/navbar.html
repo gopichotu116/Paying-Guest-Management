@@ -1,4 +1,18 @@
 <div th:fragment="navbar" class="sticky-top">
+<style>
+	.profile-image-container {
+		width: 50px;
+		height: 50px;
+		overflow: hidden;
+		border-radius: 50%;
+	}
+
+	.profile-image {
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+</style>
 
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
@@ -25,20 +39,15 @@
 
 					<li class="nav-item">
 						<button type="button" class="btn m-1 btn-warning btn-rounded" data-mdb-ripple-init>
-							<i class="fas fa-house-chimney-user"><a style="color: white;" aria-current="page"
+							<i class="fas fa-house-chimney-user me-2"><a style="color: white;" aria-current="page"
 									href="/userHome"></i>Home</a></button>
 					</li>
 
-					<!--<li class="nav-item">
-						<button type="button" class="btn m-1 btn-secondary btn-rounded" data-mdb-ripple-init>
-							<a style="color: black;" aria-current="page" href="#"><i class="fas fa-user ml-1"></i>
-								Profile</a></button>
-					</li>-->
-
+					
 					<li class="nav-item">
 						<button type="button" class="btn m-1 btn-success btn-rounded" data-mdb-ripple-init>
 							<a style="color: white;" aria-current="page" href="/searchPg"><i
-									class="fas fa-magnifying-glass-location ml-1"></i>Search Pg</a></button>
+									class="fas fa-magnifying-glass-location me-2"></i>Search Pg</a></button>
 					</li>
 
 				</ul>
@@ -48,24 +57,35 @@
 
 			<!-- Right elements -->
 			<div class="d-flex align-items-center">
-
+				<span class="me-2" style="font-size: large; font-weight: bold; color: black; height: 20px;"
+					th:text="${userName}"></span>
 				<!-- Avatar -->
 				<div class="dropdown">
+
 					<a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
 						id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
-						<img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="40"
-							alt="Black and White Portrait of a Man" loading="lazy" />
+
+						<div class="profile-image-container">
+							<img th:src="'data:image/jpeg;base64,' + ${userProfileImage}" class="profile-image" alt="">
+							<i class="fa fa-user fa-2x" aria-hidden="true"></i>
+						</div>
+
 					</a>
 					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
 						<li>
-							<a class="dropdown-item text-success" href="#">Profile
-								<i class="fas fa-user ml-1"></i>
+							<a class="dropdown-item text-success" href="/userProfile">
+								<i class="fas fa-user me-2"></i>Profile
 							</a>
+						</li>
+
+						<li>
+							<a class="dropdown-item text-primary" th:href="@{/editUserProfile/{id}(id=${userId})}">
+								<i class="fas fa-pen-to-square me-2"></i> Edit profile </a>
 						</li>
 						
 						<li>
-							<a class="dropdown-item text-primary" href="#">Edit profile <i
-									class="fas fa-pen-to-square"></i></a>
+							<a class="dropdown-item text-warning" th:href="@{/editUserProfileImage}">
+								<i class="fas fa-images me-2"></i>Change profile image </a>
 						</li>
 
 						<li>

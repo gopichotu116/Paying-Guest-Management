@@ -36,7 +36,6 @@ public class PgController {
 	@GetMapping("/editPg/{id}")
 	public String editPg(@PathVariable("id") Integer id, Model model) {
 		Pg pg = pgService.getById(id);
-		System.out.println(pg);
 		model.addAttribute("pg", pg);
 		return "owner/editPg";
 	}

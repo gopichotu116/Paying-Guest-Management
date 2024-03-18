@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:herf="@{/css/userProfile.css}">
+	<th:block th:insert="~{/fragments/bootstrap :: bootstrapLinks}"></th:block>
+	<style>
+		.col-sm-4 {
+			font-weight: bold;
+			font-size: large;
+		}
+
+		footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+		}
+		
+		.card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ccc;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .card-body {
+            padding: 20px;
+            text-align: center;
+        }
+        .card-title {
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .card-text {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .profile-image {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }	
+	</style>
+</head>
+
+<body>
+
+	<th:block th:insert="~{/user/navbar :: navbar}"></th:block>
+
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="card mt-5">
+					<div class="card-header">
+						<img style="max-width: 100px; max-height: 100px;"
+							th:src="'data:image/jpeg;base64,' + ${userProfileImage}"
+							class="profile-image rounded-circle" alt="profile">
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">MY PROFILE</h5>
+						<p class="card-text"><strong>ID:</strong> <span style="font-weight: bold; font-size: large;"  class="text-primary" th:text="${userProfile.id}"></span></p>
+						<p class="card-text"><strong>Name:</strong> <span style="font-weight: bold; font-size: large;" class="text-primary" th:text="${userProfile.name}"></span></p>
+						<p class="card-text"><strong>Email:</strong> <span style="font-weight: bold; font-size: large;" class="text-primary" th:text="${userProfile.email}"></span></p>
+						<p class="card-text"><strong>Password:</strong> <span style="font-weight: bold; font-size: large;" class="text-primary" th:text="${userProfile.password}"></span>
+						</p>
+						<!-- Add more details as needed -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{/fragments/footer :: footer}"></div>
+
+	<script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+	<script type="text/javascript" src="/js/all.min.js"></script>
+
+</body>
+
+</html>
